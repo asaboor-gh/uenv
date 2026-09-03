@@ -1,15 +1,8 @@
 # uenv
 
-uenv is a lightweight shell wrapper and centralized environment manager for [uv](https://github.com/astral-sh/uv).
+uenv is a small native-shell companion for [uv](https://github.com/astral-sh/uv).
 
-It stores named virtual environments in a single location (`~/.uenvs`) and sets `UV_PROJECT_ENVIRONMENT=virtualenv` when you activate a uenv-managed environment.
-
-## Project layout
-
-- `uenv.sh`: Bash/Zsh implementation
-- `uenv.psm1`: PowerShell implementation
-- `uenv.psd1`: PowerShell module manifest (recommended for reliable auto-loading and metadata)
-- `install.sh`: Unix-like installer
+It keeps things simple: no extra runtime dependencies and no complex tooling layer. You get named environments in one centralized location (`~/.uenvs`) with straightforward create, activate, list, freeze, and delete commands. Activation sets `UV_PROJECT_ENVIRONMENT=virtualenv` so uv commands target the active environment with less friction.
 
 ## Installation
 
@@ -25,15 +18,15 @@ After installation, restart your terminal or source your shell profile.
 
 ### Windows (PowerShell module)
 
-Download both module files into your user module path:
+**Recommended:**
 
-```powershell
-$modulePath = Join-Path $HOME "Documents/PowerShell/Modules/uenv"
-New-Item -ItemType Directory -Path $modulePath -Force | Out-Null
-Invoke-RestMethod "https://raw.githubusercontent.com/asaboor-gh/uenv/main/uenv.psm1" | Out-File (Join-Path $modulePath "uenv.psm1") -Encoding utf8
-Invoke-RestMethod "https://raw.githubusercontent.com/asaboor-gh/uenv/main/uenv.psd1" | Out-File (Join-Path $modulePath "uenv.psd1") -Encoding utf8
-Import-Module uenv -Force
-```
+1. List module paths: `$env:PSModulePath -split [IO.Path]::PathSeparator`
+2. `Set-Location` to one path from that list (typically ending in `Modules`).
+3. Run: `Invoke-RestMethod "https://raw.githubusercontent.com/asaboor-gh/uenv/main/install.ps1" | Invoke-Expression`
+
+**Manual fallback:**
+
+Place `uenv.psm1` and `uenv.psd1` inside a `uenv` directory under any path in `PSModulePath`.
 
 ## Usage
 
@@ -84,6 +77,7 @@ uenv delete myenv --yes
 - `install.sh` stores the shell loader at `~/.local/share/uenv/uenv.sh`.
 - Managed environments are stored separately at `~/.uenvs`.
 - The PowerShell manifest (`uenv.psd1`) is included to support metadata and reliable module behavior.
+- On Windows, install the module into a writable directory from `$env:PSModulePath`.
 
 ## License
 
