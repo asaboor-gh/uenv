@@ -9,11 +9,11 @@ _uenv_print_help() {
 Usage: uenv <command> [options]
 
 Commands:
-  create <name> [uv venv options]  Create a new virtual environment
+  create <name> [--python X.XX]    Create a new virtual environment
   activate <name>                  Activate a managed environment
   deactivate                       Deactivate the current environment
   list                             List all managed environments
-  freeze [uv pip freeze options]   Print installed packages from active environment
+  freeze                           Print installed packages from active environment
   delete <name> [-y|--yes]         Delete a managed environment
   help                             Show this help message
 
