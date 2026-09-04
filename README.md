@@ -1,83 +1,49 @@
 # uenv
 
-uenv is a small native-shell companion for [uv](https://github.com/astral-sh/uv).
+uenv is a lightweight native-shell companion for [uv](https://github.com/astral-sh/uv).
 
-It keeps things simple: no extra runtime dependencies and no complex tooling layer. You get named environments in one centralized location (`~/.uenvs`) with straightforward create, activate, list, freeze, and delete commands. Activation sets `UV_PROJECT_ENVIRONMENT=virtualenv` so uv commands target the active environment with less friction.
+Use named virtual environments stored in one place, with fast commands you can remember.
 
-## Installation
+- No extra runtime dependencies
+- Centralized environment directory: `~/.uenvs`
+- Simple flow: create, activate, list, freeze, delete
+- Active environment sets `UV_PROJECT_ENVIRONMENT=virtualenv`
+
+## Install
 
 ### Linux and macOS (Bash/Zsh)
-
-Run:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/asaboor-gh/uenv/main/install.sh | bash
 ```
 
-After installation, restart your terminal or source your shell profile.
+### PowerShell (cross-platform)
 
-### Windows (PowerShell module)
-
-**Recommended:**
-
-1. List module paths: `$env:PSModulePath -split [IO.Path]::PathSeparator`
-2. `Set-Location` to one path from that list (typically ending in `Modules`).
-3. Run: `Invoke-RestMethod "https://raw.githubusercontent.com/asaboor-gh/uenv/main/install.ps1" | Invoke-Expression`
-
-**Manual fallback:**
-
-Place `uenv.psm1` and `uenv.psd1` inside a `uenv` directory under any path in `PSModulePath`.
-
-## Usage
-
-### Create an environment
-
-```bash
-uenv create myenv
-uenv create py312 --python 3.12
+```powershell
+irm "https://raw.githubusercontent.com/asaboor-gh/uenv/main/install.ps1" | iex
 ```
 
-### Activate an environment
+The installer auto-detects OS and installs to the first writable module path in `$env:PSModulePath` (preferring your Documents-based user Modules path on Windows).
 
-```bash
-uenv activate myenv
-```
+Manual fallback: if auto-install fails, place `uenv.psm1` and `uenv.psd1` in a `uenv` folder under any path in `$env:PSModulePath`.
 
-### Deactivate
+## Commands
 
-```bash
-uenv deactivate
-# or:
-deactivate
-```
-
-### List environments
-
-```bash
+```powershell
+uenv create <name> [--python X.Y]
+uenv activate <name>
+uenv deactivate (or deactivate)
 uenv list
-```
-
-### Inspect installed packages
-
-```bash
 uenv freeze
-uenv freeze > requirements.txt
+uenv delete <name> [--yes]
 ```
 
-### Delete an environment
-
-```bash
-uenv delete myenv
-uenv delete myenv --yes
-```
 
 ## Notes
 
-- Environment names are restricted to: letters, numbers, dot, underscore, and dash.
+- Environments are created with `uv venv`.
+- Environment names allow letters, numbers, dot, underscore, and dash.
 - `install.sh` stores the shell loader at `~/.local/share/uenv/uenv.sh`.
-- Managed environments are stored separately at `~/.uenvs`.
-- The PowerShell manifest (`uenv.psd1`) is included to support metadata and reliable module behavior.
-- On Windows, install the module into a writable directory from `$env:PSModulePath`.
 
 ## License
 
