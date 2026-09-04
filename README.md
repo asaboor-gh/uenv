@@ -42,6 +42,7 @@ uenv delete <name> [--yes]
 ## Notes
 
 - Environments are created with `uv venv`.
+- You must use `uv pip install` in general environments, `uv add` only works with current project.
 - Environment names allow letters, numbers, dot, underscore, and dash.
 - `install.sh` stores the shell loader at `~/.local/share/uenv/uenv.sh`.
 
